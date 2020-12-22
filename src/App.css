@@ -31,3 +31,13 @@
   display: flex;
   flex-direction: column;
 }
+
+.app__loginContainer {
+  display: flex;
+}
+
+.app__username {
+  flex-direction: column;
+  margin: auto;
+  color: #333333;
+}

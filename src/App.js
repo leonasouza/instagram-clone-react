@@ -30,15 +30,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function App() {
+  const addPostsQuantity = 1;
+  const initialPostsQuantity = 5;
   const classes = useStyles();
   const [modalStyle] = useState(getModalStyle);
   const [posts, setPosts] = useState([]);
   const [open, setOpen] = useState(false);
   const [openSignIn, setOpenSignIn] = useState("");
+  const [openUpload, setOpenUpload] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [user, setUser] = useState(null);
+  const [page, setPage] = useState(initialPostsQuantity);
   const headerImg = "https://i.imgur.com/CeA5Wsk.png";
 
   useEffect(() => {
@@ -90,6 +94,25 @@ function App() {
     setOpenSignIn(false);
   };
 
+  const handleUpload = () => {
+    setOpenUpload(false);
+  };
+
+  const showMorePosts = () => {
+    setPage((previousValue) => previousValue + addPostsQuantity);
+  };
+
+  const handleScroll = (e) => {
+    window.onscroll = function (ev) {
+      if (
+        window.innerHeight + window.scrollY >=
+        document.body.offsetHeight - 200
+      ) {
+        showMorePosts();
+      }
+    };
+  };
+
   return (
     <div className="app">
       <Modal open={open} onClose={() => setOpen(false)}>
@@ -122,7 +145,6 @@ function App() {
           </form>
         </div>
       </Modal>
-
       <Modal open={openSignIn} onClose={() => setOpenSignIn(false)}>
         <div style={modalStyle} className={classes.paper}>
           <form className="app__signup">
@@ -147,17 +169,43 @@ function App() {
           </form>
         </div>
       </Modal>
-
+      <Modal open={openUpload} onClose={() => setOpenUpload(false)}>
+        <div style={modalStyle} className={classes.paper}>
+          <form className="app__upload">
+            <center>
+              <img className="app__headerImage" src={headerImg} />
+            </center>
+            {user && (
+              <ImageUpload
+                onUpload={handleUpload}
+                username={user.displayName}
+              />
+            )}
+          </form>
+        </div>
+      </Modal>
       <div className="app__header">
         <img className="app__headerImage" src={headerImg} />
         {user ? (
-          <Button
-            onClick={() => {
-              auth.signOut();
-            }}
-          >
-            Logout
-          </Button>
+          <div className="app__loginContainer">
+            <div className="app__username">
+              Olá, <strong>{user.displayName}</strong>!
+            </div>
+            <Button
+              onClick={() => {
+                setOpenUpload(true);
+              }}
+            >
+              Upload
+            </Button>
+            <Button
+              onClick={() => {
+                auth.signOut();
+              }}
+            >
+              Logout
+            </Button>
+          </div>
         ) : (
           <div className="app__loginContainer">
             <Button
@@ -179,7 +227,7 @@ function App() {
       </div>
 
       <div className="app__post">
-        {posts.map(({ id, post }) => (
+        {posts.slice(0, page).map(({ id, post }) => (
           <Post
             key={id}
             postId={id}
@@ -189,13 +237,9 @@ function App() {
             caption={post.caption}
           />
         ))}
+        {handleScroll()}
+        {/*<button onClick={showMorePosts}>Carregar mais posts</button>*/}
       </div>
-
-      {user?.displayName ? (
-        <ImageUpload username={user.displayName} />
-      ) : (
-        <h3>Faça login para realizar o upload</h3>
-      )}
     </div>
   );
 }

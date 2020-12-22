@@ -23,11 +23,21 @@
 }
 
 .post__avatar {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.post__moreOptions {
+  flex: 0;
+}
+
+.post__avatarImg {
   margin-right: 10px;
 }
 
 .post__text {
-  padding: 10px;
+  padding-left: 10px;
 }
 
 .post__commentBox {
@@ -51,5 +61,40 @@
 }
 
 .post__comments {
-  padding: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.post__loadMore {
+  border: 0;
+  background-color: transparent;
+  color: #6082a3;
+}
+
+.post__likes {
+  display: flex;
+  margin: 10px;
+  font-size: small;
+  align-items: center;
+}
+
+.post__likeButton {
+  border: 0px;
+  background-color: transparent;
+}
+
+.post__caption {
+  margin-bottom: 10px;
+}
+
+.post__deleteButton {
+  border: 0px;
+  background-color: transparent;
+}
+.post__usernameButton {
+  background-color: transparent;
+  border: 0px;
+  font-size: larger;
+  font-weight: bold;
+  padding: 0px;
 }

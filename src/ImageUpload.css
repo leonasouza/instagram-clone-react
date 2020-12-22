@@ -1,7 +1,7 @@
 .imageupload {
   display: flex;
   flex-direction: column;
-  width: 60%;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
   margin-top: 10px;
@@ -11,4 +11,15 @@
 
 .imageupload__progress {
   width: 100%;
+  margin-bottom: 5px;
+}
+
+.imageupload__caption {
+  border: 0;
+  max-width: 100%;
+  margin-bottom: 5px;
+}
+
+.imageupload__file {
+  background-color: transparent;
 }
